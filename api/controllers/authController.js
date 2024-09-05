@@ -52,18 +52,21 @@ export const login = async (req, res) => {
         // create coookie token and send it back
         const age = 1000 * 60 * 60 * 24 * 7; // 1 week
 
+        // create token and send it back
         const token = jwt.sign(
-            { id: user.id, username: user.username },
+            { id: user.id, username: user.username, isAdmin: true },
             process.env.JWT_SECRET,
             { expiresIn: age }
         );
+
+        const { password: userPWD, ...userInfo } = user;
 
         res.cookie("token", token , {
             httpOnly: true,
             // secure: true,
             // sameSite: "none",
             maxAge: age,
-        }).status(200).json({ message: "Logged in" });
+        }).status(200).json(userInfo);
 
     } catch (err) {
         console.log(err);
