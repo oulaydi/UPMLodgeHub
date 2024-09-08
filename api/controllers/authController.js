@@ -19,10 +19,10 @@ export const register = async (req, res) => {
             },
         });
 
-        res.status(201).json({ message: "User created" });
+        res.status(201).json({ message: "Utilisateur créé" });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Error creating user" });
+        res.status(500).json({ message: "Erreur lors de la création de l'utilisateur" });
     }
 };
 
@@ -39,14 +39,14 @@ export const login = async (req, res) => {
         });
         
         if (!user) {
-            return res.status(401).json({ message: "Invalid Infos" });
+            return res.status(401).json({ message: "Nom d'utilisateur ou mot de passe incorrects" });
         }
         
         // check user password
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (!validPassword) {
-            return res.status(401).json({ message: "Invalid Infos" });
+            return res.status(401).json({ message: "Nom d'utilisateur ou mot de passe incorrects" });
         }
 
         // create coookie token and send it back
@@ -70,10 +70,10 @@ export const login = async (req, res) => {
 
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Faild to logging in" });
+        res.status(500).json({ message: "Échec de la connexion" });
     }
 };
 
 export const logout = (req, res) => {
-    res.clearCookie("token").status(200).json({ message: "Logged out" });
+    res.clearCookie("token").status(200).json({ message: "Déconnecté" });
 };
